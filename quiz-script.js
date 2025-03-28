@@ -1,12 +1,6 @@
 class Quiz {
     constructor() {
-        console.log('Creating new Quiz instance');
         this.questions = [];
-        console.log('DOM elements:', {
-            landingPage: document.getElementById('landing'),
-            quizContainer: document.getElementById('quiz'),
-            startBtn: document.getElementById('start-btn')
-        });
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.skipsRemaining = 3;
@@ -16,7 +10,13 @@ class Quiz {
         this.skippedQuestions = [];
         this.userAnswers = new Array(10).fill(null);
 
-        // DOM Elements
+        // Initialize DOM elements
+        this.initializeElements();
+        // Set up event listeners
+        this.setupEventListeners();
+    }
+
+    initializeElements() {
         this.landingPage = document.getElementById('landing');
         this.quizContainer = document.getElementById('quiz');
         this.resultsContainer = document.getElementById('results');
@@ -34,8 +34,9 @@ class Quiz {
         this.correctAnswersDisplay = document.getElementById('correct-answers');
         this.wrongAnswersDisplay = document.getElementById('wrong-answers');
         this.skippedQuestionsDisplay = document.getElementById('skipped-questions');
+    }
 
-        // Event Listeners
+    setupEventListeners() {
         this.startBtn.addEventListener('click', () => this.startQuiz());
         this.nextBtn.addEventListener('click', () => this.nextQuestion());
         this.skipBtn.addEventListener('click', () => this.skipQuestion());
@@ -45,32 +46,83 @@ class Quiz {
     async loadQuestions() {
         try {
             const response = await fetch('questions.json');
+            if (!response.ok) throw new Error('Failed to load questions');
             this.questions = await response.json();
+            if (!this.questions || this.questions.length === 0) {
+                throw new Error('No questions found');
+            }
         } catch (error) {
             console.error('Error loading questions:', error);
-            // Fallback questions if JSON fails to load
-            this.questions = [
-                {
-                    question: "What is the correct syntax to declare a variable in Java?",
-                    options: ["variable x;", "var x;", "int x;", "x = 0;"],
-                    answer: "int x;"
-                },
-                {
-                    question: "Which keyword is used for inheritance in Java?",
-                    options: ["extends", "implements", "inherits", "uses"],
-                    answer: "extends"
-                }
-            ];
+            this.questions = this.getFallbackQuestions();
         }
     }
 
-    startQuiz() {
-        this.landingPage.classList.add('hidden');
-        this.quizContainer.classList.remove('hidden');
-        this.loadQuestions().then(() => {
+    getFallbackQuestions() {
+        return [
+            {
+                question: "What is the correct syntax to declare a variable in Java?",
+                options: ["variable x;", "var x;", "int x;", "x = 0;"],
+                answer: "int x;"
+            },
+            {
+                question: "Which keyword is used for inheritance in Java?",
+                options: ["extends", "implements", "inherits", "uses"],
+                answer: "extends"
+            },
+            {
+                question: "What is the default value of a boolean variable in Java?",
+                options: ["true", "false", "null", "0"],
+                answer: "false"
+            },
+            {
+                question: "Which of the following is not a Java keyword?",
+                options: ["class", "interface", "string", "extends"],
+                answer: "string"
+            },
+            {
+                question: "What is the output of System.out.println(10 + 20 + '30');?",
+                options: ["1030", "330", "30", "Error"],
+                answer: "1030"
+            },
+            {
+                question: "Which of the following is a valid declaration of a char?",
+                options: ["char c = 'a';", "char c = 'ab';", "char c = \"a\";", "char c = a;"],
+                answer: "char c = 'a';"
+            },
+            {
+                question: "What is the size of an int variable in Java?",
+                options: ["16 bits", "32 bits", "64 bits", "8 bits"],
+                answer: "32 bits"
+            },
+            {
+                question: "Which of the following is a valid way to create an array in Java?",
+                options: ["int arr[] = new int[5];", "int arr = new int[5];", "int arr[] = new int();", "int arr = new int;"],
+                answer: "int arr[] = new int[5];"
+            },
+            {
+                question: "What is the purpose of the 'final' keyword in Java?",
+                options: ["To declare a constant", "To declare a method that cannot be overridden", "To declare a class that cannot be inherited", "All of the above"],
+                answer: "All of the above"
+            },
+            {
+                question: "Which of the following is used to handle exceptions in Java?",
+                options: ["try-catch", "throw", "throws", "All of the above"],
+                answer: "All of the above"
+            }
+        ];
+    }
+
+    async startQuiz() {
+        try {
+            this.landingPage.classList.add('hidden');
+            this.quizContainer.classList.remove('hidden');
+            await this.loadQuestions();
             this.displayQuestion();
             this.startTimer();
-        });
+        } catch (error) {
+            console.error('Error starting quiz:', error);
+            alert('Failed to start quiz. Please try again.');
+        }
     }
 
     displayQuestion() {
@@ -91,11 +143,8 @@ class Quiz {
     }
 
     selectOption(selectedOption, optionIndex) {
-        // Clear previous selection
         const options = document.querySelectorAll('.option');
         options.forEach(option => option.classList.remove('selected'));
-
-        // Mark selected option
         options[optionIndex].classList.add('selected');
         this.userAnswers[this.currentQuestionIndex] = selectedOption;
         this.nextBtn.disabled = false;
@@ -119,7 +168,7 @@ class Quiz {
     updateTimerDisplay() {
         this.timerDisplay.textContent = this.timeLeft;
         const progress = (this.timeLeft / this.timePerQuestion) * 100;
-        this.timerProgress.style.width = `${progress}%`;
+        this.timerProgress.style.background = `conic-gradient(var(--primary) ${progress}%, #e2e8f0 0%)`;
     }
 
     handleTimeOut() {
@@ -178,23 +227,6 @@ class Quiz {
         this.correctAnswersDisplay.textContent = correctCount;
         this.wrongAnswersDisplay.textContent = wrongCount;
         this.skippedQuestionsDisplay.textContent = this.skippedQuestions.length;
-
-        // Add correct answers list
-        const answersList = document.createElement('div');
-        answersList.className = 'answers-list';
-        answersList.innerHTML = '<h3>Correct Answers:</h3><ol></ol>';
-        
-        const ol = answersList.querySelector('ol');
-        this.questions.forEach((q, i) => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>Q${i+1}:</strong> ${q.question}<br><strong>Answer:</strong> ${q.answer}`;
-            if (this.userAnswers[i] !== q.answer && this.userAnswers[i] !== null) {
-                li.innerHTML += `<br><strong>Your answer:</strong> ${this.userAnswers[i]}`;
-            }
-            ol.appendChild(li);
-        });
-
-        this.resultsContainer.appendChild(answersList);
     }
 
     restartQuiz() {
@@ -216,13 +248,6 @@ class Quiz {
 }
 
 // Initialize the quiz when the page loads
-window.addEventListener('load', () => {
-    console.log('Initializing quiz...');
-    try {
-        const quiz = new Quiz();
-        console.log('Quiz initialized successfully');
-    } catch (error) {
-        console.error('Quiz initialization failed:', error);
-        alert('Failed to initialize quiz. Please check console for details.');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const quiz = new Quiz();
 });
