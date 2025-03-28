@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Programming Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Landing Page -->
+        <div class="landing-page" id="landing">
+            <h1>Java Programming Quiz</h1>
+            <p>Test your Java knowledge with 10 challenging questions</p>
+            <div class="features-list">
+                <p><i class="fas fa-clock"></i> 30s per question</p>
+                <p><i class="fas fa-forward"></i> 3 skips available</p>
+                <p><i class="fas fa-trophy"></i> Score tracking</p>
+            </div>
+            <button id="start-btn">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Container -->
+        <div class="quiz-container hidden" id="quiz">
+            <div class="quiz-header">
+                <div class="timer-container">
+                    <div class="timer-progress" id="timer-progress"></div>
+                    <span id="timer">30</span>s
+                </div>
+                <div class="skip-counter">
+                    Skips left: <span id="skips-remaining">3</span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-number">Question <span id="current-q">1</span>/10</div>
+                <div class="question-text" id="question-text"></div>
+            </div>
+
+            <div class="options-container" id="options-container"></div>
+
+            <div class="quiz-controls">
+                <button class="skip-btn" id="skip-btn">
+                    <i class="fas fa-forward"></i> Skip
+                </button>
+                <button class="next-btn" id="next-btn" disabled>
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Page -->
+        <div class="results-container hidden" id="results">
+            <h2>Quiz Completed!</h2>
+            <div class="score-container">
+                Your score: <span id="final-score">0</span>/100
+            </div>
+            <div class="stats-container">
+                <p>Correct: <span id="correct-answers">0</span></p>
+                <p>Wrong: <span id="wrong-answers">0</span></p>
+                <p>Skipped: <span id="skipped-questions">0</span></p>
+            </div>
+            <button id="restart-btn">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script src="quiz-script.js"></script>
+</body>
+</html>
