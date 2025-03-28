@@ -1,4 +1,4 @@
- :root {
+:root {
     --primary: #4f46e5;
     --secondary: #f59e0b;
     --danger: #ef4444;
@@ -237,6 +237,46 @@ button:active {
     margin: 25px 0;
     display: flex;
     justify-content: space-around;
+}
+
+.answers-review {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0 0 25px 0;
+}
+
+.answers-review h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#answers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.answer-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--success);
+}
+
+.answer-item.wrong {
+    border-left-color: var(--danger);
+}
+
+.user-answer {
+    color: var(--danger);
+    font-weight: 500;
+}
+
+.correct-answer {
+    color: var(--success);
+    font-weight: 500;
 }
 
 .stats-container p {
