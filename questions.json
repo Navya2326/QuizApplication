@@ -1,0 +1,52 @@
+[
+    {
+        "question": "What is the correct syntax to declare a variable in Java?",
+        "options": ["variable x;", "var x;", "int x;", "x = 0;"],
+        "answer": "int x;"
+    },
+    {
+        "question": "Which keyword is used for inheritance in Java?",
+        "options": ["extends", "implements", "inherits", "uses"],
+        "answer": "extends"
+    },
+    {
+        "question": "What is the default value of a boolean variable in Java?",
+        "options": ["true", "false", "null", "0"],
+        "answer": "false"
+    },
+    {
+        "question": "Which of the following is not a Java keyword?",
+        "options": ["class", "interface", "string", "extends"],
+        "answer": "string"
+    },
+    {
+        "question": "What is the output of System.out.println(10 + 20 + '30');?",
+        "options": ["1030", "330", "30", "Error"],
+        "answer": "1030"
+    },
+    {
+        "question": "Which of the following is a valid declaration of a char?",
+        "options": ["char c = 'a';", "char c = 'ab';", "char c = \"a\";", "char c = a;"],
+        "answer": "char c = 'a';"
+    },
+    {
+        "question": "What is the size of an int variable in Java?",
+        "options": ["16 bits", "32 bits", "64 bits", "8 bits"],
+        "answer": "32 bits"
+    },
+    {
+        "question": "Which of the following is a valid way to create an array in Java?",
+        "options": ["int arr[] = new int[5];", "int arr = new int[5];", "int arr[] = new int();", "int arr = new int;"],
+        "answer": "int arr[] = new int[5];"
+    },
+    {
+        "question": "What is the purpose of the 'final' keyword in Java?",
+        "options": ["To declare a constant", "To declare a method that cannot be overridden", "To declare a class that cannot be inherited", "All of the above"],
+        "answer": "All of the above"
+    },
+    {
+        "question": "Which of the following is used to handle exceptions in Java?",
+        "options": ["try-catch", "throw", "throws", "All of the above"],
+        "answer": "All of the above"
+    }
+]
