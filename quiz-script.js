@@ -227,6 +227,48 @@ class Quiz {
         this.correctAnswersDisplay.textContent = correctCount;
         this.wrongAnswersDisplay.textContent = wrongCount;
         this.skippedQuestionsDisplay.textContent = this.skippedQuestions.length;
+
+        // Display answer review
+        const answersList = document.getElementById('answers-list');
+        answersList.innerHTML = '';
+
+        this.questions.forEach((question, index) => {
+            if (this.skippedQuestions.includes(index)) return;
+
+            const answerItem = document.createElement('div');
+            answerItem.className = this.userAnswers[index] === question.answer ? 
+                'answer-item' : 'answer-item wrong';
+            
+            const questionText = document.createElement('div');
+            questionText.className = 'question-text';
+            questionText.textContent = `${index + 1}. ${question.question}`;
+            
+            const answerDetails = document.createElement('div');
+            
+            if (this.userAnswers[index] !== question.answer) {
+                const userAnswer = document.createElement('span');
+                userAnswer.className = 'user-answer';
+                userAnswer.textContent = `Your answer: ${this.userAnswers[index] || 'None'}`;
+                
+                const separator = document.createElement('span');
+                separator.className = 'answer-separator';
+                separator.textContent = '•';
+                
+                const correctAnswer = document.createElement('span');
+                correctAnswer.className = 'correct-answer';
+                correctAnswer.textContent = `Correct answer: ${question.answer}`;
+                
+                answerDetails.append(userAnswer, separator, correctAnswer);
+            } else {
+                const correctAnswer = document.createElement('span');
+                correctAnswer.className = 'correct-answer';
+                correctAnswer.textContent = `Correct! You answered: ${question.answer}`;
+                answerDetails.append(correctAnswer);
+            }
+            
+            answerItem.append(questionText, answerDetails);
+            answersList.appendChild(answerItem);
+        });
     }
 
     restartQuiz() {
