@@ -228,46 +228,45 @@ class Quiz {
         this.wrongAnswersDisplay.textContent = wrongCount;
         this.skippedQuestionsDisplay.textContent = this.skippedQuestions.length;
 
-        // Display answer review
+        // Display correct answers
         const answersList = document.getElementById('answers-list');
-        answersList.innerHTML = '';
+        answersList.innerHTML = '<div class="correct-answers-heading"><h3>Correct Answers</h3></div>';
 
         this.questions.forEach((question, index) => {
-            if (this.skippedQuestions.includes(index)) return;
-
-            const answerItem = document.createElement('div');
-            answerItem.className = this.userAnswers[index] === question.answer ? 
-                'answer-item' : 'answer-item wrong';
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
             
-            const questionText = document.createElement('div');
-            questionText.className = 'question-text';
-            questionText.textContent = `${index + 1}. ${question.question}`;
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.textContent = `${index + 1}. ${question.question}`;
+            resultItem.appendChild(questionElement);
             
-            const answerDetails = document.createElement('div');
+            const answerElement = document.createElement('div');
+            answerElement.className = 'answer';
             
-            if (this.userAnswers[index] !== question.answer) {
-                const userAnswer = document.createElement('span');
-                userAnswer.className = 'user-answer';
-                userAnswer.textContent = `Your answer: ${this.userAnswers[index] || 'None'}`;
-                
-                const separator = document.createElement('span');
-                separator.className = 'answer-separator';
-                separator.textContent = '•';
-                
-                const correctAnswer = document.createElement('span');
-                correctAnswer.className = 'correct-answer';
-                correctAnswer.textContent = `Correct answer: ${question.answer}`;
-                
-                answerDetails.append(userAnswer, separator, correctAnswer);
+            if (this.skippedQuestions.includes(index)) {
+                answerElement.innerHTML = `
+                    <span class="correct-answer">Correct: ${question.answer}</span><br>
+                    <span class="skipped-answer">Skipped</span>
+                `;
+                answerElement.style.color = 'var(--secondary)';
             } else {
-                const correctAnswer = document.createElement('span');
-                correctAnswer.className = 'correct-answer';
-                correctAnswer.textContent = `Correct! You answered: ${question.answer}`;
-                answerDetails.append(correctAnswer);
+                if (this.userAnswers[index] === question.answer) {
+                    answerElement.innerHTML = `
+                        <span class="correct-answer">Correct: ${question.answer}</span>
+                    `;
+                    answerElement.style.color = 'var(--success)';
+                } else {
+                    answerElement.innerHTML = `
+                        <span class="correct-answer">Correct: ${question.answer}</span><br>
+                        <span class="user-answer">Your answer: ${this.userAnswers[index] || 'Unanswered'}</span>
+                    `;
+                    answerElement.style.color = 'var(--danger)';
+                }
             }
             
-            answerItem.append(questionText, answerDetails);
-            answersList.appendChild(answerItem);
+            resultItem.appendChild(answerElement);
+            answersList.appendChild(resultItem);
         });
     }
 
