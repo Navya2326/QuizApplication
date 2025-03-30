@@ -239,93 +239,56 @@ button:active {
     justify-content: space-around;
 }
 
-.answers-review {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 0 0 25px 0;
-}
-
-.answers-review h3 {
-    color: var(--primary);
-    margin-bottom: 15px;
-    text-align: center;
-}
-
 #answers-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.answer-item {
+.correct-answers-heading {
+    background: var(--primary);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.result-item {
     background: white;
     padding: 15px;
+    margin-bottom: 15px;
     border-radius: 8px;
-    border-left: 4px solid var(--success);
+    border-left: 4px solid var(--primary);
 }
 
-.answer-item.wrong {
-    border-left-color: var(--danger);
+.result-item .question {
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
 }
 
-.user-answer {
-    color: var(--danger);
-    font-weight: 500;
+.result-item .answer {
+    margin-top: 8px;
+    line-height: 1.6;
 }
 
 .correct-answer {
     color: var(--success);
-    font-weight: 500;
+    display: block;
 }
 
-.stats-container p {
-    font-size: 1rem;
-    color: var(--dark);
-}
-
-.stats-container span {
-    font-weight: bold;
-}
-
-#correct-answers {
-    color: var(--success);
-}
-
-#wrong-answers {
+.user-answer {
     color: var(--danger);
+    display: block;
 }
 
-#skipped-questions {
+.skipped-answer {
     color: var(--secondary);
-}
-
-.answers-list {
-    margin-top: 30px;
-    text-align: left;
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.answers-list h3 {
-    color: var(--primary);
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.answers-list ol {
-    padding-left: 20px;
-}
-
-.answers-list li {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.answers-list li .wrong-answer {
-    color: var(--danger);
+    display: block;
+    font-style: italic;
 }
 
 /* Responsive Design */
